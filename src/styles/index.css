@@ -1,0 +1,616 @@
+@import "tailwindcss";
+@import "@fontsource-variable/noto-serif-display";
+@import "@fontsource-variable/noto-serif-display/wght-italic.css";
+@import "@fontsource-variable/jost";
+@import "@fontsource/noto-serif-devanagari/400.css";
+
+/* Devices with a real pointer. Touch screens get explicit controls instead of hover. */
+@custom-variant hover-device (@media (hover: hover) and (pointer: fine));
+
+/*
+  Design tokens. Every colour, font, radius, shadow and easing on the site comes from here.
+
+  JustEthnic is "Chhapai", the hand block-print table of Bagru and Sanganer. The page is
+  alizarin-washed cotton (blush), and the inks are the printer's dyes, each with one job:
+  madder red is action and structure, logo rose is the warm note, indigo (dabu) carries
+  information. Thin high-contrast capitals and a crimson italic come from the bridal
+  editorial; Jost, close to the logo's lettering, carries everything you read. Corners are
+  cut cloth: square photos and buttons, hairline rules instead of boxes.
+
+  The aliases at the end keep shared logic components working; new code uses the names.
+*/
+@theme {
+  --color-blush: #f6e9e6;
+  --color-blush-deep: #ecd6d1;
+  --color-petal: #fcf6f4;
+  --color-madder: #9c1730;
+  --color-madder-deep: #6e0f22;
+  --color-rose: #995154;
+  --color-rose-deep: #7c3a3e;
+  --color-rose-soft: #f1dcd8;
+  --color-indigo: #24365e;
+  --color-indigo-soft: #dfe3ee;
+  --color-ink: #2a1418;
+  --color-ink-soft: #6b5357;
+  --color-line: rgb(110 15 34 / 0.14);
+  --color-line-strong: rgb(110 15 34 / 0.28);
+  --color-success: #2f6b4a;
+  --color-danger: #b3261e;
+
+  --color-stone: var(--color-blush);
+  --color-stone-deep: var(--color-blush-deep);
+  --color-ink-hover: var(--color-madder-deep);
+  --color-bronze: var(--color-madder);
+  --color-bronze-bright: var(--color-rose);
+  --color-bronze-soft: var(--color-rose-soft);
+
+  --font-display: "Noto Serif Display Variable", "Noto Serif Display", "Didot", Georgia, serif;
+  --font-sans: "Jost Variable", "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-deva: "Noto Serif Devanagari", serif;
+
+  --radius-card: 2px;
+  --radius-field: 2px;
+
+  --shadow-float: 0 14px 30px -18px rgb(110 15 34 / 0.35);
+  --shadow-lift: 0 30px 60px -30px rgb(110 15 34 / 0.45);
+  --shadow-card: 0 20px 40px -24px rgb(42 20 24 / 0.45);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scrollbar-color: var(--color-rose) var(--color-blush);
+  }
+
+  body {
+    @apply bg-blush font-sans text-ink antialiased;
+    font-size: 15.5px;
+    -webkit-tap-highlight-color: transparent;
+    caret-color: var(--color-madder);
+  }
+
+  ::selection {
+    background: var(--color-madder);
+    color: var(--color-petal);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--color-madder);
+    outline-offset: 3px;
+  }
+
+  button,
+  [role="button"],
+  a,
+  label[for],
+  select {
+    cursor: pointer;
+  }
+
+  button {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  a {
+    text-underline-offset: 4px;
+  }
+
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-blush);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-rose);
+    border: 3px solid var(--color-blush);
+    border-radius: 99px;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-10;
+  }
+
+  /* Thin high-contrast capitals, the bridal-editorial voice. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+    line-height: 1;
+  }
+
+  /* The crimson italic: names, category titles, the one word that carries feeling. */
+  .serif-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* Small wide labels: tabs, tags, button text. */
+  .caps {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  .deva {
+    font-family: var(--font-deva);
+  }
+
+  .field {
+    @apply h-12 w-full border border-line-strong bg-petal px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-ink-soft;
+    border-radius: var(--radius-field);
+  }
+  .field:focus {
+    border-color: var(--color-madder);
+    box-shadow: 0 0 0 3px rgb(156 23 48 / 0.12);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+
+  /*
+    Button: on hover the second colour soaks up from the bottom edge, like dye climbing
+    cloth, and the arrow nudges right. Variants set --btn-bg / --btn-fg / --btn-fill /
+    --btn-fill-fg / --btn-ring.
+  */
+  .btn {
+    --btn-bg: var(--color-madder);
+    --btn-fg: var(--color-petal);
+    --btn-fill: var(--color-madder-deep);
+    --btn-fill-fg: var(--color-petal);
+    --btn-ring: transparent;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    white-space: nowrap;
+    border-radius: var(--radius-field);
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    box-shadow: inset 0 0 0 1px var(--btn-ring);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition:
+      color 320ms var(--ease-out),
+      box-shadow 320ms var(--ease-out),
+      transform 160ms var(--ease-out);
+  }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-fill);
+    transform: translateY(101%);
+    transition: transform 460ms var(--ease-out);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .btn .btn-arrow {
+    transition: transform 300ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      color: var(--btn-fill-fg);
+      box-shadow: inset 0 0 0 1px transparent;
+    }
+    .btn:hover::before {
+      transform: translateY(0);
+    }
+    .btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+    /* A button inside a hovered card soaks too. */
+    .group:hover .btn-group {
+      color: var(--btn-fill-fg);
+      box-shadow: inset 0 0 0 1px transparent;
+    }
+    .group:hover .btn-group::before {
+      transform: translateY(0);
+    }
+  }
+
+  .link-line {
+    position: relative;
+    padding-block: 2px;
+  }
+  .link-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 320ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link-line:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+  .link-line[aria-current="page"]::after,
+  .link-line[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Permanent hairline madder underline that thickens on hover. */
+  .link-under {
+    text-decoration: underline;
+    text-decoration-color: var(--color-madder);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition:
+      text-decoration-thickness 200ms ease,
+      text-underline-offset 200ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link-under:hover {
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+  }
+
+  .press {
+    transition: transform 160ms var(--ease-out);
+  }
+  .press:active {
+    transform: scale(0.96);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* A hairline madder rule under one word. */
+  .swash {
+    background-image: linear-gradient(var(--color-madder), var(--color-madder));
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: 0 92%;
+  }
+
+  /* The buta stamp as a mask: set the ink with a background colour. */
+  .buta-mask {
+    -webkit-mask: url("/brand/buta.svg") center / contain no-repeat;
+    mask: url("/brand/buta.svg") center / contain no-repeat;
+  }
+
+  /* Hand block-print border: a repeat of the buta stamp, used as a section divider. */
+  .print-border {
+    height: 26px;
+    -webkit-mask: url("/brand/buta-row.svg") center / 52px 26px repeat-x;
+    mask: url("/brand/buta-row.svg") center / 52px 26px repeat-x;
+    background: var(--print-ink, var(--color-madder));
+    opacity: var(--print-opacity, 0.85);
+  }
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5) rotate(-8deg);
+    filter: blur(3px);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.96) rotate(0deg);
+    filter: blur(0);
+  }
+  75% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes press {
+  0% {
+    opacity: 0;
+    transform: scale(1.18);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes lift {
+  0% {
+    opacity: 0.95;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.12);
+  }
+}
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(5px) rotate(-6deg);
+  }
+}
+@keyframes roll {
+  from {
+    transform: translateY(60%);
+    opacity: 0;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  40% {
+    transform: scale(1.3);
+  }
+}
+@keyframes bump {
+  35% {
+    transform: scale(1.35);
+  }
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--len, 60);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-4px);
+  }
+  40%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@keyframes burst {
+  from {
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(var(--a)) translateY(-18px) scale(0.3);
+    opacity: 0;
+  }
+}
+@keyframes swash-in {
+  from {
+    background-size: 0% 1px;
+  }
+}
+@keyframes rise {
+  from {
+    clip-path: inset(100% 0 0 0 round var(--radius-card));
+    transform: translateY(20px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round var(--radius-card));
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-fade-up {
+    animation: fade-up 650ms var(--ease-out) both;
+    animation-delay: var(--delay, 0ms);
+  }
+  .anim-fade-in {
+    animation: fade-in 450ms ease both;
+    animation-delay: var(--delay, 0ms);
+  }
+  .anim-stamp {
+    animation: stamp 1300ms var(--ease-out) both;
+  }
+  .anim-press {
+    animation: press 380ms var(--ease-out) both;
+  }
+  .anim-lift {
+    animation: lift 520ms var(--ease-out) both;
+  }
+  .anim-nudge {
+    animation: nudge 1.8s var(--ease-in-out) infinite;
+  }
+  .anim-roll {
+    animation: roll 420ms var(--ease-out) both;
+  }
+  .anim-pop {
+    animation: pop 420ms var(--ease-spring);
+  }
+  .anim-bump {
+    animation: bump 450ms var(--ease-spring);
+  }
+  .anim-shake {
+    animation: shake 360ms ease;
+  }
+  .anim-draw {
+    stroke-dasharray: var(--len, 60);
+    animation: draw 600ms var(--ease-out) 200ms both;
+  }
+  .anim-swash {
+    animation: swash-in 900ms var(--ease-out) 400ms both;
+  }
+  .spin-slow {
+    animation: spin-slow 18s linear infinite;
+  }
+  .marquee-track {
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+  .ping-soft {
+    animation: ping-soft 1.8s var(--ease-out) infinite;
+  }
+  .burst-dot {
+    animation: burst 600ms var(--ease-out) both;
+  }
+
+  [data-reveal="armed"] {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  [data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 700ms var(--ease-out),
+      transform 900ms var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal-frame="armed"] {
+    clip-path: inset(100% 0 0 0 round var(--radius-card));
+    transform: translateY(20px);
+  }
+  [data-reveal-frame="in"] {
+    animation: rise 1000ms var(--ease-out) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .hero-progress {
+    animation: progress var(--duration) linear forwards;
+  }
+  .hero-progress[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  .page-enter {
+    animation: fade-in 400ms ease both;
+  }
+}
+
+.hero-progress {
+  transform-origin: left;
+}
+
+.anim-press {
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-lift {
+    display: none;
+  }
+}
+
+/* The printing cloth: a fine cotton weave with a faint half-drop of butas already on it. */
+.cloth {
+  background-image:
+    repeating-linear-gradient(0deg, rgb(110 15 34 / 0.025) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgb(110 15 34 / 0.025) 0 1px, transparent 1px 3px);
+}
+.cloth-ground {
+  background: var(--color-rose);
+  opacity: 0.1;
+  -webkit-mask:
+    url("/brand/buta.svg") 0 0 / 104px 68px repeat,
+    url("/brand/buta.svg") 52px 34px / 104px 68px repeat;
+  mask:
+    url("/brand/buta.svg") 0 0 / 104px 68px repeat,
+    url("/brand/buta.svg") 52px 34px / 104px 68px repeat;
+}
+
+/* Lenis smooth scroll. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}

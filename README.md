@@ -1,16 +1,44 @@
-# React + Vite
+# JustEthnic
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A demo storefront for JustEthnic, "Wear your culture". It sells sarees, anarkalis, kurta sets, hand block prints and lehengas: 49 pieces from ₹999 to ₹4,999.
 
-Currently, two official plugins are available:
+## Run it
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Build with `npm run build`, then preview with `npm run preview`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## What works
 
-## Expanding the Oxlint configuration
+- **Home:**
+  - Occasion-chapter hero (Diwali, Haldi, Mehendi, Shaadi).
+  - Categories, the occasion mosaic and the festive edit tabs.
+  - A block-print "printing table" you can stamp on.
+  - A Banarasi zoom loupe and a Diwali countdown.
+  - Customer notes, services, coupon codes and an Instagram wall.
+- **Shop:**
+  - Category pages, with filters in the URL: fabric, occasion, colour, price.
+  - Sort, and search with suggestions.
+- **Product page:**
+  - Gallery with zoom, colour siblings, size picker and size guide.
+  - Free-size sarees with optional blouse stitching (+₹699).
+  - Pincode check, reviews, related and recently viewed.
+- **Bag:**
+  - Drawer and full page.
+  - Free shipping progress over ₹1,499.
+  - Coupons: `UTSAV10`, `FIRST15` (₹1,999+), `DIWALI500` (₹3,999+).
+- **Checkout:**
+  - Address with pincode autofill, then UPI, card, net banking or COD (₹49).
+  - Order confirmation and order history on this device.
+- **Also:** wishlist, account, help/FAQ, our story, a 404 page and an error page.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+All data is local (`src/data`). The cart, wishlist and orders are saved in localStorage. No real payment is taken. Reviews and customer notes are sample content.
+
+## Stack
+
+- Vite, React 19, React Router 7 and Tailwind CSS v4.
+- Motion, Lenis and Phosphor icons.
+- Noto Serif Display, Jost and Noto Serif Devanagari fonts.
