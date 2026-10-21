@@ -158,13 +158,6 @@ export const testimonials = [
   { name: 'Pooja Desai', city: 'Ahmedabad', occasion: 'Wears it to work on Fridays', rating: 5, productId: 'j40', text: 'The indigo dabu set softened beautifully after two washes. I have it in maroon too now.' },
 ]
 
-export const instagram = {
-  handle: '@justethnic',
-  tag: '#WearYourCulture',
-  href: 'https://instagram.com',
-  images: ['j31-1', 'j19-1', 'j36-1', 'j48-1', 'j33-1', 'j44-1'],
-}
-
 // The services row that closes the page (ref: custom orders / worldwide delivery / gift vouchers).
 export const services = [
   { icon: 'scissors', title: 'Blouse stitching', body: 'Send your measurements, we stitch the blouse for ₹699.' },

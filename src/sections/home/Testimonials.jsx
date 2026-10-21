@@ -66,7 +66,6 @@ export function Testimonials() {
           )
         })}
       </ul>
-      <p className="shell mt-4 text-[12px] text-ink-soft">Sample customer notes for this demo store.</p>
     </section>
   )
 }

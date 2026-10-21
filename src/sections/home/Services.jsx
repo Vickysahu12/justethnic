@@ -1,13 +1,12 @@
 import { Link } from 'react-router'
-import { services, offers, instagram } from '../../data/content'
+import { services, offers } from '../../data/content'
 import { useReveal } from '../../hooks/useReveal'
-import { Img } from '../../components/ui/Img'
 import { Icon } from '../../components/ui/Icon'
 import { CopyCode } from '../../components/ui/CopyCode'
 
 /**
  * The close: the house services in four cells (ref: custom orders / worldwide delivery /
- * fashion guide / gift vouchers), the codes, and the #WearYourCulture wall.
+ * fashion guide / gift vouchers) and the codes.
  */
 export function Services() {
   const ref = useReveal()
@@ -34,25 +33,6 @@ export function Services() {
           <li key={o.code} className="flex items-center justify-between gap-3 border border-dashed border-madder/40 bg-petal px-5 py-4">
             <p className="serif-italic text-[17px] text-madder">{o.title}</p>
             <CopyCode code={o.code} />
-          </li>
-        ))}
-      </ul>
-
-      <div className="shell mt-20 flex flex-col items-center text-center">
-        <h2 className="display text-[30px] text-ink sm:text-[44px]">
-          #WearYour<span className="serif-italic normal-case text-madder">Culture</span>
-        </h2>
-        <p className="mt-3 text-[15px] text-ink-soft">Tag {instagram.handle} in your festive look to be featured.</p>
-      </div>
-      <ul className="mt-10 grid grid-cols-3 lg:grid-cols-6">
-        {instagram.images.map((id, i) => (
-          <li key={id}>
-            <a href={instagram.href} target="_blank" rel="noreferrer" aria-label={`Instagram post ${i + 1}`} className="group relative block overflow-hidden" data-reveal-frame style={{ '--reveal-delay': `${i * 70}ms` }}>
-              <Img id={id} alt="" sizes="(min-width: 1024px) 17vw, 33vw" className="aspect-[4/5]" position="50% 25%" imgClassName="transition-transform duration-[1400ms] ease-[var(--ease-out)] group-hover:scale-110" />
-              <span className="absolute inset-0 grid place-items-center bg-madder-deep/0 transition-colors duration-500 group-hover:bg-madder-deep/45">
-                <Icon name="instagram" size={30} className="scale-75 text-petal opacity-0 transition-[opacity,transform] duration-300 ease-[var(--ease-spring)] group-hover:scale-100 group-hover:opacity-100" />
-              </span>
-            </a>
           </li>
         ))}
       </ul>
